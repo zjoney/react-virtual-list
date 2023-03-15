@@ -16,7 +16,7 @@ const listRef = React.createRef();
       className="List"
       height={200}
       width={800}
-      itemSize={50}
+      itemHeight={50}
       itemCount={1000}
       useIsScrolling
       ref={listRef}

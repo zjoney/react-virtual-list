@@ -34,7 +34,7 @@ class ListItem extends React.Component {
 
 function createListComponent({
   getEstimatedTotalSize, //获取预计的总高度
-  getItemSize,//每个条目的高度
+  getItemHeight,//每个条目的高度
   getItemOffset, //获取每个条目的偏移量
   getStartIndexForOffset, // 根据向上卷起的高度计算开始索引
   getStopIndexForStartIndex,//获取结束索引 
@@ -223,7 +223,7 @@ function createListComponent({
         style = {
           position: 'absolute',
           width: '100%',
-          height: getItemSize(this.props, index, this.instanceProps),
+          height: getItemHeight(this.props, index, this.instanceProps),
           top: getItemOffset(this.props, index, this.instanceProps)
         };
         this.itemStyleCache.set(index, style);
