@@ -36,10 +36,10 @@ function createListComponent({
   getEstimatedTotalSize, //获取预计的总高度
   getItemHeight,//每个条目的高度
   getItemOffset, //获取每个条目的偏移量
-  getStartIndexForOffset, // 根据向上卷起的高度计算开始索引
-  getStopIndexForStartIndex,//获取结束索引 
   initInstanceProps,
-  getOffsetForIndex
+  // getStartIndexForOffset, // 根据向上卷起的高度计算开始索引
+  // getStopIndexForStartIndex,//获取结束索引 
+  // getOffsetForIndex
 }) {
   return class extends React.Component {
     constructor(props) {
@@ -97,14 +97,14 @@ function createListComponent({
     scrollToItem = (index) => {
       const { itemCount } = this.props;
       index = Math.max(0, Math.min(index, itemCount - 1));
-      this.scrollTo(
-        getOffsetForIndex(this.props, index)
-      )
+      // this.scrollTo(
+      //   getOffsetForIndex(this.props, index)
+      // )
     }
-    scrollTo =(scrollOffset)=>{
-      this.setState({scrollOffset})
+    scrollTo = (scrollOffset) => {
+      this.setState({ scrollOffset })
     }
-    componentDidUpdate(){
+    componentDidUpdate() {
       const { scrollOffset } = this.state;
       this.outerRef.current.scrollTop = scrollOffset
     }
@@ -115,65 +115,72 @@ function createListComponent({
       const items = [];
       const { isScrolling } = this.state;
       if (itemCount > 0) {
-        const [startIndex, stopIndex, originStartIndex, originStopIndex] = this.getRangeToRender()
-        for (let index = startIndex; index <= stopIndex; index++) {
-          if (isDynamic) {// 如果需要动态
-            // start
-            let style = this._getItemStyle(index);
-            items.push(
-              <ListItem key={index} index={index} style={style}
-                ComponentType={ComponentType} onSizeChange={this.onSizeChange}
-                isScrolling={useIsScrolling && isScrolling}
-              />
-            );
-            // if (index === originStartIndex) {
-            //   items.push(<span key={'span' + index} ref={this.firstRef} style={{ ...style, width: 0, height: 0 }}></span>)
-            //   items.push(
-            //     <ListItem key={index} index={index} style={style}
-            //       ComponentType={ComponentType}
-            //       onSizeChange={this.onSizeChange}
-            //     />
-            //   );
-            // } else if (index === originStopIndex) {
-            //   items.push(<span key={'span' + index} ref={this.lastRef} style={{ ...style, width: 0, height: 0 }}></span>)
-            //   items.push(
-            //     <ListItem key={index} index={index} style={style}
-            //       ComponentType={ComponentType} onSizeChange={this.onSizeChange} />
-            //   );
-            // } else {
-            //   items.push(
-            //     <ListItem key={index} index={index} style={style}
-            //       ComponentType={ComponentType} onSizeChange={this.onSizeChange} />
-            //   );
-            // }
-            // end
-          } else {
-            let style = this._getItemStyle(index);
-            items.push(
-              <ComponentType key={index} index={index} style={style}
-                isScrolling={useIsScrolling && isScrolling}
-              />
-            )
-
-            //   );
-            // if (index === originStartIndex) {
-            //   items.push(
-            //     <ComponentType key={index} index={index} style={style} forwardRef={this.firstRef} />
-            //   );
-            //   continue;
-            // } else if (index === originStopIndex) {
-            //   items.push(
-            //     <ComponentType key={index} index={index} style={style} forwardRef={this.lastRef} />
-            //   );
-            //   continue;
-            // } else {
-            //   items.push(
-            //     <ComponentType key={index} index={index} style={style} />
-            //   );
-            // }
-          }
+        // new add
+        for (let index = 0; index < itemCount; index++) {
+          items.push(
+            <ComponentType key={index} index={index} 
+            // isScrolling={useIsScrolling && isScrolling} style={this._getItemStyle}
+            />
+          )
         }
       }
+      // const [startIndex, stopIndex, originStartIndex, originStopIndex] = this.getRangeToRender()
+      // for (let index = startIndex; index <= stopIndex; index++) {
+      //   if (isDynamic) {// 如果需要动态
+      //     // start
+      //     let style = this._getItemStyle(index);
+      //     items.push(
+      //       <ListItem key={index} index={index} style={style}
+      //         ComponentType={ComponentType} onSizeChange={this.onSizeChange}
+      //         isScrolling={useIsScrolling && isScrolling}
+      //       />
+      //     );
+      //     // if (index === originStartIndex) {
+      //     //   items.push(<span key={'span' + index} ref={this.firstRef} style={{ ...style, width: 0, height: 0 }}></span>)
+      //     //   items.push(
+      //     //     <ListItem key={index} index={index} style={style}
+      //     //       ComponentType={ComponentType}
+      //     //       onSizeChange={this.onSizeChange}
+      //     //     />
+      //     //   );
+      //     // } else if (index === originStopIndex) {
+      //     //   items.push(<span key={'span' + index} ref={this.lastRef} style={{ ...style, width: 0, height: 0 }}></span>)
+      //     //   items.push(
+      //     //     <ListItem key={index} index={index} style={style}
+      //     //       ComponentType={ComponentType} onSizeChange={this.onSizeChange} />
+      //     //   );
+      //     // } else {
+      //     //   items.push(
+      //     //     <ListItem key={index} index={index} style={style}
+      //     //       ComponentType={ComponentType} onSizeChange={this.onSizeChange} />
+      //     //   );
+      //     // }
+      //     // end
+      //   } else {
+      // let style = this._getItemStyle(index);
+      // items.push(
+      //   <ComponentType key={index} index={index} style={style}
+      //     isScrolling={useIsScrolling && isScrolling}
+      //   />
+      // )
+
+      //   );
+      // if (index === originStartIndex) {
+      //   items.push(
+      //     <ComponentType key={index} index={index} style={style} forwardRef={this.firstRef} />
+      //   );
+      //   continue;
+      // } else if (index === originStopIndex) {
+      //   items.push(
+      //     <ComponentType key={index} index={index} style={style} forwardRef={this.lastRef} />
+      //   );
+      //   continue;
+      // } else {
+      //   items.push(
+      //     <ComponentType key={index} index={index} style={style} />
+      //   );
+      // }
+
       return (
         <div style={containerStyle} ref={this.outerRef} onScroll={this.onScroll}>
           <div style={contentStyle}>
@@ -182,6 +189,7 @@ function createListComponent({
         </div>
       )
     }
+
     onScroll = () => {
       const { scrollTop } = this.outerRef.current;
       this.setState({ scrollOffset: scrollTop, isScrolling: true }, this._resetIsScrollingDebounced);
@@ -189,13 +197,13 @@ function createListComponent({
 
     _resetIsScrollingDebounced = () => {
       if (this._resetIsScrollingTimeoutId) {
-        // cancelTimeout(this._resetIsScrollingTimeoutId);
+        // cancelTimeout(this._resetIsScrollingTimeoutId);// before
         clearTimeout(this._resetIsScrollingTimeoutId)
       }
       // requestTimeout(
       //     this._resetIsScrolling,
       //     IS_SCROLLING_DEBOUNCE_INTERVAL
-      // );
+      // );// before
       this._resetIsScrollingTimeoutId = setTimeout(() => this.setState({
         isScrolling: false
       }), IS_SCROLLING_DEBOUNCE_INTERVAL)
@@ -204,31 +212,40 @@ function createListComponent({
       this._resetIsScrollingTimeoutId = null;
       this.setState({ isScrolling: false });
     }
-    getRangeToRender = () => {
-      const { scrollOffset } = this.state;
-      const { itemCount, overscanCount } = this.props;
-      const startIndex = getStartIndexForOffset(this.props, scrollOffset, this.instanceProps);
-      const stopIndex = getStopIndexForStartIndex(this.props, startIndex, scrollOffset, this.instanceProps);
-      return [
-        Math.max(0, startIndex - overscanCount),
-        Math.min(itemCount - 1, stopIndex + overscanCount),
-        startIndex, stopIndex];
+    // getRangeToRender = () => {
+    //   const { scrollOffset } = this.state;
+    //   const { itemCount, overscanCount } = this.props;
+    //   const startIndex = getStartIndexForOffset(this.props, scrollOffset, this.instanceProps);
+    //   const stopIndex = getStopIndexForStartIndex(this.props, startIndex, scrollOffset, this.instanceProps);
+    //   return [
+    //     Math.max(0, startIndex - overscanCount),
+    //     Math.min(itemCount - 1, stopIndex + overscanCount),
+    //     startIndex, stopIndex];
 
-    }
+    // }
     _getItemStyle = (index) => {
-      let style;
-      if (this.itemStyleCache.has(index)) {
-        style = this.itemStyleCache.get(index);
-      } else {
-        style = {
-          position: 'absolute',
-          width: '100%',
-          height: getItemHeight(this.props, index, this.instanceProps),
-          top: getItemOffset(this.props, index, this.instanceProps)
-        };
-        this.itemStyleCache.set(index, style);
+      // let style;
+      // if (this.itemStyleCache.has(index)) {
+      //   style = this.itemStyleCache.get(index);
+      // } else {
+      //   style = {
+      //     position: 'absolute',
+      //     width: '100%',
+      //     height: getItemHeight(this.props, index, this.instanceProps),
+      //     top: getItemOffset(this.props, index, this.instanceProps)
+      //   };
+      //   this.itemStyleCache.set(index, style);
+      // }
+      // };
+
+      const style = {
+        position: 'absolute',
+        width: '100%',
+        height: getItemHeight(this.props),
+        top: getItemOffset(this.props, index)
       }
       return style;
+
     }
   }
 }
